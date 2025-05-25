@@ -1,10 +1,20 @@
-#pragma once
-#include "Human.h"
-#include <iostream> 
 
-class Cyclist : public Human {
+#include "Person.h" // Включаем базовый класс
+
+class Cyclist : public Person {
 public:
-    Cyclist(const char* g, const char* child, const char* glasses, const char* beard,
-        int x1, int y1, int x2, int y2);
-    std::ostream& Print(std::ostream& os) const override;
+    Cyclist();
+    Cyclist(int x1, int y1, int x2, int y2,
+        int g, int c, int gl, int b);
+    ~Cyclist() override = default;
+
+    // Правило Пяти
+    Cyclist(const Cyclist& other);
+    Cyclist& operator=(const Cyclist& other);
+    Cyclist(Cyclist&& other) noexcept;
+    Cyclist& operator=(Cyclist&& other) noexcept;
+
+    void print(std::ostream& os) const override;
+    void inputInfo() override;
 };
+

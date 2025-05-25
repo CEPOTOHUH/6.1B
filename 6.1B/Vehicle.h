@@ -1,24 +1,28 @@
-#pragma once
-#include "Entity.h"
-#include <cstring>
 
-class Vehicle : public Entity {
+#include "DetectedObject.h"
+#include <cstdio> // Для size_t
+
+class Vehicle : public DetectedObject {
 protected:
-    int r, g, b;
-    char* number;
+    int colorRGB;
+    char* licensePlate;
+    size_t licensePlateLength;
+    size_t licensePlateCapacity;
+
 public:
-    Vehicle(int red, int green, int blue, const char* num, int x1, int y1, int x2, int y2);
+    Vehicle();
+    Vehicle(int x1, int y1, int x2, int y2, int color, const char* plate);
+    virtual ~Vehicle() override;
+
+    // Правило Пяти
     Vehicle(const Vehicle& other);
     Vehicle& operator=(const Vehicle& other);
-    virtual ~Vehicle();
+    Vehicle(Vehicle&& other) noexcept;
+    Vehicle& operator=(Vehicle&& other) noexcept;
 
-    // Getters
-    int getR() const;
-    int getG() const;
-    int getB() const;
-    const char* getNumber() const;
+    virtual void print(std::ostream& os) const override;
+    virtual void inputInfo() override;
 
-    // Setters
-    void setColor(int red, int green, int blue); // С валидацией 0-255
-    void setNumber(const char* num);
+    void setLicensePlate(const char* newPlate);
 };
+

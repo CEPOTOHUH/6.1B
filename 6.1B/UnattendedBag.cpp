@@ -1,28 +1,28 @@
 #include "UnattendedBag.h"
 
-UnattendedBag::UnattendedBag(int x1, int y1, int x2, int y2, int time)
-    : Entity(x1, y1, x2, y2) {
-    // Можно добавить валидацию для time, например, time >= 0
-    if (time < 0) {
-        throw std::invalid_argument("Time seen cannot be negative.");
-    }
-    timeSeen = time;
+// Реализация конструкторов
+UnattendedBag::UnattendedBag() : DetectedObject(), detectedTimeSeconds(0) {}
+
+UnattendedBag::UnattendedBag(int x1, int y1, int x2, int y2, long long time)
+    : DetectedObject(x1, y1, x2, y2), detectedTimeSeconds(time) {
 }
 
-// Getter
-int UnattendedBag::getTimeSeen() const { return timeSeen; }
-
-// Setter
-void UnattendedBag::setTimeSeen(int time) {
-    // Можно добавить валидацию для time, например, time >= 0
-    if (time < 0) {
-        throw std::invalid_argument("Time seen cannot be negative.");
-    }
-    timeSeen = time;
+// Реализация методов print и inputInfo
+void UnattendedBag::print(std::ostream& os) const {
+    os << "--- Бесхозная сумка ---\n";
+    DetectedObject::print(os); // Вызываем метод базового класса
+    os << "  Время первого обнаружения (секунды после полуночи): " << detectedTimeSeconds << "\n";
 }
 
-std::ostream& UnattendedBag::Print(std::ostream& os) const {
-    os << "[UnattendedBag] Coords: (" << getXmin() << "," << getYmin() << ")-(" << getXmax() << "," << getYmax() << ") ";
-    os << "First seen at: " << getTimeSeen() << " seconds since midnight";
-    return os;
+void UnattendedBag::inputInfo() {
+    std::cout << "--- Ввод данных Бесхозной сумки ---\n";
+    DetectedObject::inputInfo(); // Вызываем метод базового класса
+    std::cout << "  Введите время первого обнаружения (секунды после полуночи): "; std::cin >> detectedTimeSeconds;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
+
+// Правило Пяти (дефолтные реализации)
+UnattendedBag::UnattendedBag(const UnattendedBag& other) = default;
+UnattendedBag& UnattendedBag::operator=(const UnattendedBag& other) = default;
+UnattendedBag::UnattendedBag(UnattendedBag&& other) noexcept = default;
+UnattendedBag& UnattendedBag::operator=(UnattendedBag&& other) noexcept = default;

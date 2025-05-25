@@ -1,60 +1,165 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Vehicle.h"
-#include <cstring>
-#include <stdexcept>
+#include <cstring> // Для strcpy, strlen
 
-// Вспомогательная функция (аналогично Human.cpp)
-static char* safe_strdup_cpp(const char* str) {
-    if (!str) return nullptr;
-    size_t len = strlen(str) + 1;
-    char* new_str = new char[len];
-    strcpy(new_str, str);
-    return new_str;
+// Реализация конструкторов
+Vehicle::Vehicle() : DetectedObject(), colorRGB(0), licensePlate(nullptr), licensePlateLength(0), licensePlateCapacity(0) {}
+
+Vehicle::Vehicle(int x1, int y1, int x2, int y2, int color, const char* plate)
+    : DetectedObject(x1, y1, x2, y2), colorRGB(color) {
+    if (plate != nullptr) {
+        licensePlateLength = std::strlen(plate);
+        licensePlateCapacity = licensePlateLength + 1;
+        licensePlate = new char[licensePlateCapacity];
+        std::strcpy(licensePlate, plate);
+    }
+    else {
+        licensePlate = nullptr;
+        licensePlateLength = 0;
+        licensePlateCapacity = 0;
+    }
 }
 
-Vehicle::Vehicle(int red, int green, int blue, const char* num, int x1, int y1, int x2, int y2)
-    : Entity(x1, y1, x2, y2) {
-    setColor(red, green, blue); // Используем сеттер для валидации
-    number = nullptr; // Инициализация перед вызовом сеттера
-    setNumber(num);
+// Реализация деструктора
+Vehicle::~Vehicle() {
+    if (licensePlate != nullptr) {
+        delete[] licensePlate;
+        licensePlate = nullptr;
+        licensePlateLength = 0;
+        licensePlateCapacity = 0;
+    }
 }
 
-Vehicle::Vehicle(const Vehicle& other) : Entity(other) {
-    setColor(other.r, other.g, other.b); // Копируем цвет (валидация не нужна, т.к. он уже валиден)
-    r = other.r; g = other.g; b = other.b; // Прямое присваивание после валидации в конструкторе other
-    number = safe_strdup_cpp(other.number);
+// Реализация конструктора копирования
+Vehicle::Vehicle(const Vehicle& other)
+    : DetectedObject(other),
+    colorRGB(other.colorRGB),
+    licensePlate(nullptr), licensePlateLength(0), licensePlateCapacity(0) {
+    if (other.licensePlate != nullptr) {
+        licensePlateLength = other.licensePlateLength;
+        licensePlateCapacity = other.licensePlateCapacity;
+        licensePlate = new char[licensePlateCapacity];
+        std::strcpy(licensePlate, other.licensePlate);
+    }
 }
 
+// Реализация оператора присваивания копированием
 Vehicle& Vehicle::operator=(const Vehicle& other) {
     if (this != &other) {
-        Entity::operator=(other);
-        setColor(other.r, other.g, other.b);
-        setNumber(other.number);
+        DetectedObject::operator=(other);
+        colorRGB = other.colorRGB;
+
+        if (licensePlate != nullptr) {
+            delete[] licensePlate;
+            licensePlate = nullptr;
+            licensePlateLength = 0;
+            licensePlateCapacity = 0;
+        }
+
+        if (other.licensePlate != nullptr) {
+            licensePlateLength = other.licensePlateLength;
+            licensePlateCapacity = other.licensePlateCapacity;
+            licensePlate = new char[licensePlateCapacity];
+            std::strcpy(licensePlate, other.licensePlate);
+        }
     }
     return *this;
 }
 
-Vehicle::~Vehicle() {
-    delete[] number;
+// Реализация конструктора перемещения
+Vehicle::Vehicle(Vehicle&& other) noexcept
+    : DetectedObject(std::move(other)),
+    colorRGB(other.colorRGB),
+    licensePlate(other.licensePlate),
+    licensePlateLength(other.licensePlateLength),
+    licensePlateCapacity(other.licensePlateCapacity) {
+    other.licensePlate = nullptr;
+    other.licensePlateLength = 0;
+    other.licensePlateCapacity = 0;
+    other.colorRGB = 0;
 }
 
-// Getters
-int Vehicle::getR() const { return r; }
-int Vehicle::getG() const { return g; }
-int Vehicle::getB() const { return b; }
-const char* Vehicle::getNumber() const { return number; }
+// Реализация оператора присваивания перемещением
+Vehicle& Vehicle::operator=(Vehicle&& other) noexcept {
+    if (this != &other) {
+        DetectedObject::operator=(std::move(other));
 
-// Setters
-void Vehicle::setColor(int red, int green, int blue) {
-    if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255) {
-        throw std::invalid_argument("Invalid RGB color value. Each component must be between 0 and 255.");
+        if (licensePlate != nullptr) {
+            delete[] licensePlate;
+        }
+
+        licensePlate = other.licensePlate;
+        licensePlateLength = other.licensePlateLength;
+        licensePlateCapacity = other.licensePlateCapacity;
+        colorRGB = other.colorRGB;
+
+        other.licensePlate = nullptr;
+        other.licensePlateLength = 0;
+        other.licensePlateCapacity = 0;
+        other.colorRGB = 0;
     }
-    r = red;
-    g = green;
-    b = blue;
+    return *this;
 }
 
-void Vehicle::setNumber(const char* num) {
-    delete[] number;
-    number = safe_strdup_cpp(num);
+// Реализация метода print
+void Vehicle::print(std::ostream& os) const {
+    os << "--- Транспортное средство ---\n";
+    DetectedObject::print(os);
+    os << "  Цвет (RGB hex): 0x" << std::hex << colorRGB << std::dec << "\n";
+    os << "  Номер: " << (licensePlate ? licensePlate : "Не опр.") << "\n";
+}
+
+// Реализация метода inputInfo
+void Vehicle::inputInfo() {
+    std::cout << "--- Ввод данных Транспортного средства ---\n";
+    DetectedObject::inputInfo();
+    std::cout << "  Введите цвет (RGB hex, например, FF0000 для красного): 0x"; std::cin >> std::hex >> colorRGB >> std::dec;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cout << "  Введите номер: ";
+
+    if (licensePlate != nullptr) {
+        delete[] licensePlate;
+        licensePlate = nullptr;
+        licensePlateLength = 0;
+        licensePlateCapacity = 0;
+    }
+
+    const size_t INITIAL_BUFFER_SIZE = 64;
+    char* buffer = new char[INITIAL_BUFFER_SIZE];
+    size_t current_capacity = INITIAL_BUFFER_SIZE;
+    size_t current_length = 0;
+    char c;
+
+    while (std::cin.get(c) && c != '\n' && std::cin.good()) {
+        if (current_length + 1 >= current_capacity) {
+            current_capacity *= 2;
+            char* new_buffer = new char[current_capacity];
+            std::memcpy(new_buffer, buffer, current_length); // Используем memcpy для копирования
+            delete[] buffer;
+            buffer = new_buffer;
+        }
+        buffer[current_length++] = c;
+    }
+    buffer[current_length] = '\0';
+
+    licensePlate = buffer;
+    licensePlateLength = current_length;
+    licensePlateCapacity = current_capacity;
+}
+
+// Реализация метода setLicensePlate
+void Vehicle::setLicensePlate(const char* newPlate) {
+    if (licensePlate != nullptr) {
+        delete[] licensePlate;
+        licensePlate = nullptr;
+        licensePlateLength = 0;
+        licensePlateCapacity = 0;
+    }
+
+    if (newPlate != nullptr) {
+        licensePlateLength = std::strlen(newPlate);
+        licensePlateCapacity = licensePlateLength + 1;
+        licensePlate = new char[licensePlateCapacity];
+        std::strcpy(licensePlate, newPlate);
+    }
 }
