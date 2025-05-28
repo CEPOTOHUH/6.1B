@@ -1,25 +1,26 @@
 #include "Motorcycle.h"
+#include <iostream> // Для std::cout
 
-// Реализация конструкторов
+// Реализация методов Motorcycle
 Motorcycle::Motorcycle() : Vehicle() {}
-
 Motorcycle::Motorcycle(int x1, int y1, int x2, int y2, int color, const char* plate)
     : Vehicle(x1, y1, x2, y2, color, plate) {
 }
 
-// Реализация методов print и inputInfo
+// Destructor is defaulted in .h
+// Copy Constructor is defaulted in .h
+// Copy Assignment Operator is defaulted in .h
+// Move Constructor is defaulted in .h
+// Move Assignment Operator is defaulted in .h
+
+// CORRECTED: 'override' removed from the definition here
 void Motorcycle::print(std::ostream& os) const {
     os << "--- Мотоцикл ---\n";
-    Vehicle::print(os); // Вызываем метод базового класса
+    Vehicle::print(os);
 }
 
+// CORRECTED: 'override' removed from the definition here
 void Motorcycle::inputInfo() {
     std::cout << "--- Ввод данных Мотоцикла ---\n";
-    Vehicle::inputInfo(); // Вызываем метод базового класса
+    Vehicle::inputInfo();
 }
-
-// Правило Пяти (дефолтные реализации)
-Motorcycle::Motorcycle(const Motorcycle& other) = default;
-Motorcycle& Motorcycle::operator=(const Motorcycle& other) = default;
-Motorcycle::Motorcycle(Motorcycle&& other) noexcept = default;
-Motorcycle& Motorcycle::operator=(Motorcycle&& other) noexcept = default;

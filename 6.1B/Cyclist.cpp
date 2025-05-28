@@ -1,26 +1,15 @@
 #include "Cyclist.h"
+#include <iostream> 
 
-// Реализация конструкторов
+// Реализация методов Cyclist
 Cyclist::Cyclist() : Person() {}
-
-Cyclist::Cyclist(int x1, int y1, int x2, int y2,
-    int g, int c, int gl, int b)
-    : Person(x1, y1, x2, y2, g, c, gl, b) {
-}
-
-// Реализация методов print и inputInfo
+Cyclist::Cyclist(int x1, int y1, int x2, int y2, int g, int c, int gl, int b) : Person(x1, y1, x2, y2, g, c, gl, b) {}
 void Cyclist::print(std::ostream& os) const {
     os << "--- Велосипедист ---\n";
-    Person::print(os); // Вызываем метод базового класса
+    Person::print(os);
 }
 
 void Cyclist::inputInfo() {
     std::cout << "--- Ввод данных Велосипедиста ---\n";
-    Person::inputInfo(); // Вызываем метод базового класса
+    Person::inputInfo();
 }
-
-// Правило Пяти (дефолтные реализации)
-Cyclist::Cyclist(const Cyclist& other) = default;
-Cyclist& Cyclist::operator=(const Cyclist& other) = default;
-Cyclist::Cyclist(Cyclist&& other) noexcept = default;
-Cyclist& Cyclist::operator=(Cyclist&& other) noexcept = default;

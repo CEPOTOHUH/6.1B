@@ -1,28 +1,36 @@
 #include "Car.h"
+#include <iostream> 
+#include <limits> 
 
-// Реализация конструкторов
+// Реализация методов Car
 Car::Car() : Vehicle(), isTaxi(false) {}
 
 Car::Car(int x1, int y1, int x2, int y2, int color, const char* plate, bool taxi)
-    : Vehicle(x1, y1, x2, y2, color, plate), isTaxi(taxi) {
+    : Vehicle(x1, y1, x2, y2, color, plate) {
+    setIsTaxi(taxi);
 }
 
-// Реализация методов print и inputInfo
 void Car::print(std::ostream& os) const {
     os << "--- Автомобиль ---\n";
-    Vehicle::print(os); // Вызываем метод базового класса
+    Vehicle::print(os);
     os << "  Такси (0=Нет, 1=Да): " << (isTaxi ? "Да" : "Нет") << "\n";
 }
 
 void Car::inputInfo() {
     std::cout << "--- Ввод данных Автомобиля ---\n";
-    Vehicle::inputInfo(); // Вызываем метод базового класса
-    std::cout << "  Такси (0=Нет, 1=Да): "; std::cin >> isTaxi;
+    Vehicle::inputInfo();
+    std::cout << "  Такси (0=Нет, 1=Да): ";
+    int tempIsTaxi;
+    while (!(std::cin >> tempIsTaxi) || (tempIsTaxi != 0 && tempIsTaxi != 1)) {
+        std::cout << "Ошибка: Введите 0 (Нет) или 1 (Да) для такси: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    setIsTaxi(tempIsTaxi == 1);
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-// Правило Пяти (дефолтные реализации)
-Car::Car(const Car& other) = default;
-Car& Car::operator=(const Car& other) = default;
-Car::Car(Car&& other) noexcept = default;
-Car& Car::operator=(Car&& other) noexcept = default;
+void Car::setIsTaxi(bool taxi) {
+    isTaxi = taxi;
+}
+bool Car::getIsTaxi() const { return isTaxi; }

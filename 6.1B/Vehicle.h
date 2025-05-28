@@ -1,6 +1,8 @@
+#pragma once
 
+#define _CRT_SECURE_NO_WARNINGS 
 #include "DetectedObject.h"
-#include <cstdio> // Для size_t
+#include <cstring>  
 
 class Vehicle : public DetectedObject {
 protected:
@@ -12,17 +14,18 @@ protected:
 public:
     Vehicle();
     Vehicle(int x1, int y1, int x2, int y2, int color, const char* plate);
-    virtual ~Vehicle() override;
+    virtual ~Vehicle() override;                               
+    Vehicle(const Vehicle& other);                              
+    Vehicle& operator=(const Vehicle& other);                    
+    Vehicle(Vehicle&& other) noexcept;                           
+    Vehicle& operator=(Vehicle&& other) noexcept;                
 
-    // Правило Пяти
-    Vehicle(const Vehicle& other);
-    Vehicle& operator=(const Vehicle& other);
-    Vehicle(Vehicle&& other) noexcept;
-    Vehicle& operator=(Vehicle&& other) noexcept;
-
-    virtual void print(std::ostream& os) const override;
-    virtual void inputInfo() override;
+    void print(std::ostream& os) const override;
+    void inputInfo() override;
 
     void setLicensePlate(const char* newPlate);
-};
+    const char* getLicensePlate() const;
 
+    void setColorRGB(int color);
+    int getColorRGB() const;
+};

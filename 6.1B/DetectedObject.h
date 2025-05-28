@@ -1,8 +1,7 @@
-#ifndef DETECTED_OBJECT_H
-#define DETECTED_OBJECT_H
+#pragma once
 
 #include <iostream>
-#include <limits> // Для std::numeric_limits
+#include <limits>
 
 class DetectedObject {
 public:
@@ -20,17 +19,27 @@ public:
     DetectedObject();
     DetectedObject(int x1, int y1, int x2, int y2);
     virtual ~DetectedObject() = default;
-
-    // Правило Пяти
-    DetectedObject(const DetectedObject& other);
-    DetectedObject& operator=(const DetectedObject& other);
-    DetectedObject(DetectedObject&& other) noexcept;
-    DetectedObject& operator=(DetectedObject&& other) noexcept;
+    DetectedObject(const DetectedObject& other) = default;
+    DetectedObject& operator=(const DetectedObject& other) = default;
+    DetectedObject(DetectedObject&& other) noexcept = default;
+    DetectedObject& operator=(DetectedObject&& other) noexcept = default;
 
     virtual void print(std::ostream& os) const;
     virtual void inputInfo();
+
+    virtual void setXmin(int x);
+    virtual int getXmin() const;
+
+    virtual void setYmin(int y);
+    virtual int getYmin() const;
+
+    virtual void setXmax(int x);
+    virtual int getXmax() const;
+
+    virtual void setYmax(int y);
+    virtual int getYmax() const;
+
+    virtual void setCoordinates(int x1, int y1, int x2, int y2);
+    virtual Coordinates getCoordinates() const;
 };
-
 std::ostream& operator<<(std::ostream& os, const DetectedObject& obj);
-
-#endif // DETECTED_OBJECT_H
