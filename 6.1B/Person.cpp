@@ -1,7 +1,7 @@
 #include "Person.h"
-#include <iostream> // For std::cerr, std::cin, std::cout
+#include <iostream> 
 
-// Ğåàëèçàöèÿ ìåòîäîâ Person
+// ÃÃ¥Ã Ã«Ã¨Ã§Ã Ã¶Ã¨Ã¿ Ã¬Ã¥Ã²Ã®Ã¤Ã®Ã¢ Person
 Person::Person() : DetectedObject(), gender(2), childStatus(2), glassesStatus(2), beardStatus(2) {}
 Person::Person(int x1, int y1, int x2, int y2,
     int g, int c, int gl, int b)
@@ -11,57 +11,53 @@ Person::Person(int x1, int y1, int x2, int y2,
     setGlassesStatus(gl);
     setBeardStatus(b);
 }
-
-// Destructor, Copy Constructor, Copy Assignment Operator, Move Constructor, Move Assignment Operator
-// are all defaulted in the header, so no definition is needed here.
-
 void Person::print(std::ostream& os) const {
-    os << "--- ×åëîâåê ---\n";
+    os << "--- Ã—Ã¥Ã«Ã®Ã¢Ã¥Ãª ---\n";
     DetectedObject::print(os);
-    os << "  Ïîë (0=Ìóæ, 1=Æåí, 2=Íå îïğ.): " << gender << "\n";
-    os << "  Ğåá¸íîê (0=Äà, 1=Íåò, 2=Íå îïğ.): " << childStatus << "\n";
-    os << "  Î÷êè (0=Åñòü, 1=Íåò, 2=Íå îïğ.): " << glassesStatus << "\n";
-    os << "  Áîğîäà (0=Åñòü, 1=Íåò, 2=Íå îïğ.): " << beardStatus << "\n";
+    os << "  ÃÃ®Ã« (0=ÃŒÃ³Ã¦, 1=Ã†Ã¥Ã­, 2=ÃÃ¥ Ã®Ã¯Ã°.): " << gender << "\n";
+    os << "  ÃÃ¥Ã¡Â¸Ã­Ã®Ãª (0=Ã„Ã , 1=ÃÃ¥Ã², 2=ÃÃ¥ Ã®Ã¯Ã°.): " << childStatus << "\n";
+    os << "  ÃÃ·ÃªÃ¨ (0=Ã…Ã±Ã²Ã¼, 1=ÃÃ¥Ã², 2=ÃÃ¥ Ã®Ã¯Ã°.): " << glassesStatus << "\n";
+    os << "  ÃÃ®Ã°Ã®Ã¤Ã  (0=Ã…Ã±Ã²Ã¼, 1=ÃÃ¥Ã², 2=ÃÃ¥ Ã®Ã¯Ã°.): " << beardStatus << "\n";
 }
 
 void Person::inputInfo() {
-    std::cout << "--- Ââîä äàííûõ ×åëîâåêà ---\n";
+    std::cout << "--- Ã‚Ã¢Ã®Ã¤ Ã¤Ã Ã­Ã­Ã»Ãµ Ã—Ã¥Ã«Ã®Ã¢Ã¥ÃªÃ  ---\n";
     DetectedObject::inputInfo();
 
-    std::cout << "  Ââåäèòå ïîë (0=Ìóæ, 1=Æåí, 2=Íå îïğ.): ";
+    std::cout << "  Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã¯Ã®Ã« (0=ÃŒÃ³Ã¦, 1=Ã†Ã¥Ã­, 2=ÃÃ¥ Ã®Ã¯Ã°.): ";
     int tempGender;
     while (!(std::cin >> tempGender) || tempGender < 0 || tempGender > 2) {
-        std::cout << "Îøèáêà: Ââåäèòå ÷èñëî îò 0 äî 2 äëÿ ïîëà: ";
+        std::cout << "ÃÃ¸Ã¨Ã¡ÃªÃ : Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã·Ã¨Ã±Ã«Ã® Ã®Ã² 0 Ã¤Ã® 2 Ã¤Ã«Ã¿ Ã¯Ã®Ã«Ã : ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     setGender(tempGender);
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    std::cout << "  Ââåäèòå ñòàòóñ ğåá¸íêà (0=Äà, 1=Íåò, 2=Íå îïğ.): ";
+    std::cout << "  Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã±Ã²Ã Ã²Ã³Ã± Ã°Ã¥Ã¡Â¸Ã­ÃªÃ  (0=Ã„Ã , 1=ÃÃ¥Ã², 2=ÃÃ¥ Ã®Ã¯Ã°.): ";
     int tempChildStatus;
     while (!(std::cin >> tempChildStatus) || tempChildStatus < 0 || tempChildStatus > 2) {
-        std::cout << "Îøèáêà: Ââåäèòå ÷èñëî îò 0 äî 2 äëÿ ñòàòóñà ğåá¸íêà: ";
+        std::cout << "ÃÃ¸Ã¨Ã¡ÃªÃ : Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã·Ã¨Ã±Ã«Ã® Ã®Ã² 0 Ã¤Ã® 2 Ã¤Ã«Ã¿ Ã±Ã²Ã Ã²Ã³Ã±Ã  Ã°Ã¥Ã¡Â¸Ã­ÃªÃ : ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     setChildStatus(tempChildStatus);
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    std::cout << "  Ââåäèòå ñòàòóñ î÷êîâ (0=Åñòü, 1=Íåò, 2=Íå îïğ.): ";
+    std::cout << "  Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã±Ã²Ã Ã²Ã³Ã± Ã®Ã·ÃªÃ®Ã¢ (0=Ã…Ã±Ã²Ã¼, 1=ÃÃ¥Ã², 2=ÃÃ¥ Ã®Ã¯Ã°.): ";
     int tempGlassesStatus;
     while (!(std::cin >> tempGlassesStatus) || tempGlassesStatus < 0 || tempGlassesStatus > 2) {
-        std::cout << "Îøèáêà: Ââåäèòå ÷èñëî îò 0 äî 2 äëÿ ñòàòóñà î÷êîâ: ";
+        std::cout << "ÃÃ¸Ã¨Ã¡ÃªÃ : Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã·Ã¨Ã±Ã«Ã® Ã®Ã² 0 Ã¤Ã® 2 Ã¤Ã«Ã¿ Ã±Ã²Ã Ã²Ã³Ã±Ã  Ã®Ã·ÃªÃ®Ã¢: ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     setGlassesStatus(tempGlassesStatus);
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    std::cout << "  Ââåäèòå ñòàòóñ áîğîäû (0=Åñòü, 1=Íåò, 2=Íå îïğ.): ";
+    std::cout << "  Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã±Ã²Ã Ã²Ã³Ã± Ã¡Ã®Ã°Ã®Ã¤Ã» (0=Ã…Ã±Ã²Ã¼, 1=ÃÃ¥Ã², 2=ÃÃ¥ Ã®Ã¯Ã°.): ";
     int tempBeardStatus;
     while (!(std::cin >> tempBeardStatus) || tempBeardStatus < 0 || tempBeardStatus > 2) {
-        std::cout << "Îøèáêà: Ââåäèòå ÷èñëî îò 0 äî 2 äëÿ ñòàòóñà áîğîäû: ";
+        std::cout << "ÃÃ¸Ã¨Ã¡ÃªÃ : Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ Ã·Ã¨Ã±Ã«Ã® Ã®Ã² 0 Ã¤Ã® 2 Ã¤Ã«Ã¿ Ã±Ã²Ã Ã²Ã³Ã±Ã  Ã¡Ã®Ã°Ã®Ã¤Ã»: ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -74,7 +70,7 @@ void Person::setGender(int g) {
         gender = g;
     }
     else {
-        std::cerr << "Íåâåğíîå çíà÷åíèå äëÿ ïîëà (" << g << "). Äîïóñòèìî (0, 1, 2). Çíà÷åíèå íå èçìåíåíî.\n";
+        std::cerr << "ÃÃ¥Ã¢Ã¥Ã°Ã­Ã®Ã¥ Ã§Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã¤Ã«Ã¿ Ã¯Ã®Ã«Ã  (" << g << "). Ã„Ã®Ã¯Ã³Ã±Ã²Ã¨Ã¬Ã® (0, 1, 2). Ã‡Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã­Ã¥ Ã¨Ã§Ã¬Ã¥Ã­Ã¥Ã­Ã®.\n";
     }
 }
 int Person::getGender() const { return gender; }
@@ -84,7 +80,7 @@ void Person::setChildStatus(int c) {
         childStatus = c;
     }
     else {
-        std::cerr << "Íåâåğíîå çíà÷åíèå äëÿ ñòàòóñà ğåáåíêà (" << c << "). Äîïóñòèìî (0, 1, 2). Çíà÷åíèå íå èçìåíåíî.\n";
+        std::cerr << "ÃÃ¥Ã¢Ã¥Ã°Ã­Ã®Ã¥ Ã§Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã¤Ã«Ã¿ Ã±Ã²Ã Ã²Ã³Ã±Ã  Ã°Ã¥Ã¡Ã¥Ã­ÃªÃ  (" << c << "). Ã„Ã®Ã¯Ã³Ã±Ã²Ã¨Ã¬Ã® (0, 1, 2). Ã‡Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã­Ã¥ Ã¨Ã§Ã¬Ã¥Ã­Ã¥Ã­Ã®.\n";
     }
 }
 int Person::getChildStatus() const { return childStatus; }
@@ -94,7 +90,7 @@ void Person::setGlassesStatus(int gl) {
         glassesStatus = gl;
     }
     else {
-        std::cerr << "Íåâåğíîå çíà÷åíèå äëÿ ñòàòóñà î÷êîâ (" << gl << "). Äîïóñòèìî (0, 1, 2). Çíà÷åíèå íå èçìåíåíî.\n";
+        std::cerr << "ÃÃ¥Ã¢Ã¥Ã°Ã­Ã®Ã¥ Ã§Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã¤Ã«Ã¿ Ã±Ã²Ã Ã²Ã³Ã±Ã  Ã®Ã·ÃªÃ®Ã¢ (" << gl << "). Ã„Ã®Ã¯Ã³Ã±Ã²Ã¨Ã¬Ã® (0, 1, 2). Ã‡Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã­Ã¥ Ã¨Ã§Ã¬Ã¥Ã­Ã¥Ã­Ã®.\n";
     }
 }
 int Person::getGlassesStatus() const { return glassesStatus; }
@@ -104,7 +100,7 @@ void Person::setBeardStatus(int b) {
         beardStatus = b;
     }
     else {
-        std::cerr << "Íåâåğíîå çíà÷åíèå äëÿ ñòàòóñà áîğîäû (" << b << "). Äîïóñòèìî (0, 1, 2). Çíà÷åíèå íå èçìåíåíî.\n";
+        std::cerr << "ÃÃ¥Ã¢Ã¥Ã°Ã­Ã®Ã¥ Ã§Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã¤Ã«Ã¿ Ã±Ã²Ã Ã²Ã³Ã±Ã  Ã¡Ã®Ã°Ã®Ã¤Ã» (" << b << "). Ã„Ã®Ã¯Ã³Ã±Ã²Ã¨Ã¬Ã® (0, 1, 2). Ã‡Ã­Ã Ã·Ã¥Ã­Ã¨Ã¥ Ã­Ã¥ Ã¨Ã§Ã¬Ã¥Ã­Ã¥Ã­Ã®.\n";
     }
 }
 int Person::getBeardStatus() const { return beardStatus; }
